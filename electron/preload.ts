@@ -5,4 +5,7 @@ contextBridge.exposeInMainWorld("ipc", {
   test: (message: string) => {
     ipcRenderer.invoke("test", message); //（2）IPC通信を送信する
   },
+  openFile: () => {
+    return ipcRenderer.invoke("openFile");
+  },
 });
