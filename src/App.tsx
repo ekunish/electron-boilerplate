@@ -10,6 +10,10 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
+
+        <button onClick={() => window.ipc.test("Hello, Electron Main World.")}>
+          ipcテストメッセージ送信
+        </button>
         <a
           className="App-link"
           href="https://reactjs.org"

@@ -1,11 +1,18 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 
 let win: BrowserWindow | null = null;
 
 function createWindow() {
-  win = new BrowserWindow({ width: 800, height: 600 })
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      contextIsolation: true, //（4-1）セキュリティ設定
+      preload: path.join(__dirname, "preload.js"), //（4-2）レンダラープロセス初期化スクリプト指定
+    }
+  })
 
   if (isDev) {
     win.loadURL('http://localhost:3000/index.html');
@@ -39,4 +46,9 @@ app.on('activate', () => {
   if (win === null) {
     createWindow();
   }
+});
+
+//（8）IPC通信のテスト実装
+ipcMain.handle("test", (event, message) => {
+  console.log("test message:", message);
 });
